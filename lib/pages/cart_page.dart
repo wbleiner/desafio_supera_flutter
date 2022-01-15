@@ -13,6 +13,12 @@ class CartPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.63,
+                  child: Center(
+                    child: Text('Carrinho'),
+                  ),
+                ),
                 Row(
                   children: [
                     Text('Total'),

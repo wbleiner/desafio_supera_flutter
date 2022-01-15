@@ -4,7 +4,7 @@ class CartItem {
   final String name;
   final double price;
   final String image;
-  final int quantity;
+  int quantity;
 
   CartItem({
     required this.idGame,

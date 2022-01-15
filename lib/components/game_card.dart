@@ -1,17 +1,15 @@
 import 'package:desafio_supera_flutter/components/score.dart';
 import 'package:desafio_supera_flutter/models/game_item.dart';
+import 'package:desafio_supera_flutter/models/game_list.dart';
 import 'package:desafio_supera_flutter/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class GameCard extends StatelessWidget {
-  final GameItem gameLoaded;
-  const GameCard({
-    Key? key,
-    required this.gameLoaded,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final GameItem loadedGame = Provider.of<GameItem>(context);
+    final GameList gameList = Provider.of<GameList>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -30,15 +28,15 @@ class GameCard extends StatelessWidget {
           GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(
               AppRoutes.DETAILS,
-              arguments: gameLoaded,
+              arguments: loadedGame,
             ),
             child: Column(
               children: [
                 Container(
                   child: Hero(
-                    tag: gameLoaded.id,
+                    tag: loadedGame.id,
                     child: Image.asset(
-                      'assets/images/items/${gameLoaded.image}',
+                      'assets/images/items/${loadedGame.image}',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -47,7 +45,7 @@ class GameCard extends StatelessWidget {
                 Container(
                   height: 50,
                   child: Text(
-                    gameLoaded.name,
+                    loadedGame.name,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       // fontWeight: FontWeight.bold,
@@ -59,11 +57,11 @@ class GameCard extends StatelessWidget {
               ],
             ),
           ),
-          Score(score: gameLoaded.score),
+          Score(score: loadedGame.score),
           Row(
             children: [
               Text(
-                'R\$ ${gameLoaded.price.toStringAsFixed(2).replaceAll('.', ',')}',
+                'R\$ ${loadedGame.price.toStringAsFixed(2).replaceAll('.', ',')}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: 'RobotoCondensed',
@@ -71,8 +69,16 @@ class GameCard extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.favorite_border),
+                onPressed: () {
+                  loadedGame.toggleFavorite();
+                  gameList.filterFavorite();
+                },
+                icon: Icon(
+                  loadedGame.isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: loadedGame.isFavorite ? Colors.red : Colors.black,
+                ),
               )
             ],
             mainAxisAlignment: MainAxisAlignment.spaceAround,

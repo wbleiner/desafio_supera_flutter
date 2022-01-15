@@ -17,34 +17,28 @@ class _CarouselSliderGamesState extends State<CarouselSliderGames> {
         .map(
           (carouselItem) => Card(
             elevation: 5,
-            child: Column(
+            child: Stack(
               children: [
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        'assets/images/carousel/${carouselItem.image}',
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        fit: BoxFit.cover,
+                Image.asset(
+                  'assets/images/carousel/${carouselItem.image}',
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  bottom: 15,
+                  left: 15,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    color: Colors.black45,
+                    child: Text(
+                      carouselItem.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.w600,
                       ),
-                      Positioned(
-                        bottom: 15,
-                        left: 15,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          color: Colors.black45,
-                          child: Text(
-                            carouselItem.title,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -72,15 +66,15 @@ class _CarouselSliderGamesState extends State<CarouselSliderGames> {
           ),
           items: _carouselCards(),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
+        Container(
+          margin: const EdgeInsets.only(top: 10, bottom: 20),
           child: AnimatedSmoothIndicator(
             activeIndex: activeIndex,
             count: dummyCarouselItems.length,
             effect: WormEffect(
-              radius: 6,
-              dotWidth: 10,
-              dotHeight: 10,
+              radius: 5,
+              dotWidth: 8,
+              dotHeight: 8,
             ),
           ),
         ),
