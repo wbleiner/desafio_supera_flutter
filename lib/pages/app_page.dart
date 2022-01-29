@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:desafio_supera_flutter/models/cart.dart';
 import 'package:desafio_supera_flutter/models/game_list.dart';
 import 'package:desafio_supera_flutter/pages/cart_page.dart';
 import 'package:desafio_supera_flutter/pages/favorite_page.dart';
@@ -11,6 +12,7 @@ enum SortOptions {
   BIGGESTPRICE,
   APHABETICALORDER,
   SCORE,
+  NOORDER,
 }
 
 class AppPage extends StatefulWidget {
@@ -27,44 +29,51 @@ class _AppPageState extends State<AppPage> {
     FavoritePage(),
     CartPage(),
   ];
-  int _indexCurrent = 0;
+  int _currentIndex = 0;
   static const indexHome = 0;
-  static const indexFavorite = 1;
   static const indexCart = 2;
 
   void _onItemTapped(int index) {
     setState(() {
-      _indexCurrent = index;
+      _currentIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GameList>(context);
+    final cartProvider = Provider.of<Cart>(context);
+
+    void _onSeletionOption(SortOptions selectedOption) {
+      switch (selectedOption) {
+        case SortOptions.APHABETICALORDER:
+          provider.alphabeticalOrder();
+          break;
+        case SortOptions.BIGGESTPRICE:
+          provider.biggestPricelOrder();
+          break;
+        case SortOptions.LOWESTPRICE:
+          provider.lowestPriceOrder();
+          break;
+        case SortOptions.SCORE:
+          provider.scoreOrder();
+          break;
+        case SortOptions.NOORDER:
+          provider.noOrder();
+          break;
+        default:
+      }
+    }
+
     return Scaffold(
+      drawer: Drawer(),
       appBar: AppBar(
-        title: Text(_title[_indexCurrent]),
-        actions: _indexCurrent == indexHome
+        title: Text(_title[_currentIndex]),
+        actions: _currentIndex == indexHome
             ? [
                 PopupMenuButton(
                   icon: Icon(Icons.sort),
-                  onSelected: (SortOptions selectedOption) {
-                    switch (selectedOption) {
-                      case SortOptions.APHABETICALORDER:
-                        provider.alphabeticalOrder();
-                        break;
-                      case SortOptions.BIGGESTPRICE:
-                        provider.biggestPricelOrder();
-                        break;
-                      case SortOptions.LOWESTPRICE:
-                        provider.lowestPriceOrder();
-                        break;
-                      case SortOptions.SCORE:
-                        provider.scoreOrder();
-                        break;
-                      default:
-                    }
-                  },
+                  onSelected: _onSeletionOption,
                   itemBuilder: (_) => [
                     PopupMenuItem(
                       child: Text('Menor Preço'),
@@ -82,6 +91,10 @@ class _AppPageState extends State<AppPage> {
                       child: Text('Ordem Alfabética'),
                       value: SortOptions.APHABETICALORDER,
                     ),
+                    PopupMenuItem(
+                      child: Text('Ordem Inicial'),
+                      value: SortOptions.NOORDER,
+                    ),
                   ],
                 ),
               ]
@@ -92,34 +105,35 @@ class _AppPageState extends State<AppPage> {
         iconSize: 26,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(
-                _indexCurrent == indexHome ? Icons.home : Icons.home_outlined),
+            icon: Icon(Icons.home_outlined),
             label: 'Início',
+            activeIcon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-            icon: Icon(_indexCurrent == indexFavorite
-                ? Icons.favorite
-                : Icons.favorite_outline),
-            label: 'Favoritos',
-          ),
+              icon: Icon(Icons.favorite_outline),
+              label: 'Favoritos',
+              activeIcon: Icon(Icons.favorite)),
           BottomNavigationBarItem(
             icon: Badge(
+              showBadge: cartProvider.itemsCount == 0 ? false : true,
               position: BadgePosition(top: -15, end: -7),
               badgeContent: Text(
-                '15',
+                cartProvider.itemsCount.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 11),
               ),
-              child: Icon(_indexCurrent == indexCart
-                  ? Icons.shopping_cart
-                  : Icons.shopping_cart_outlined),
+              child: Icon(
+                indexCart == _currentIndex
+                    ? Icons.shopping_cart
+                    : Icons.shopping_cart_outlined,
+              ),
             ),
             label: 'Carrinho',
           ),
         ],
-        currentIndex: _indexCurrent,
+        currentIndex: _currentIndex,
         onTap: _onItemTapped,
       ),
-      body: _widgetOptions[_indexCurrent],
+      body: _widgetOptions[_currentIndex],
     );
   }
 }

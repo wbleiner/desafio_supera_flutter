@@ -7,10 +7,21 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final favoriteGames = Provider.of<GameList>(context).gameFavoriteList;
-    return SingleChildScrollView(
-      child: GameGrid(
-        loadedGames: favoriteGames,
-      ),
-    );
+    return favoriteGames.length == 0
+        ? Center(
+            child: Text(
+              'Ops, você não tem nenhum jogo favorito.',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          )
+        : SingleChildScrollView(
+            child: GameGrid(
+              loadedGames: favoriteGames,
+            ),
+          );
   }
 }

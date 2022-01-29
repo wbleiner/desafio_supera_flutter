@@ -1,0 +1,4 @@
+enum ScoreTypes {
+  TOTAL,
+  REDUCED,
+}

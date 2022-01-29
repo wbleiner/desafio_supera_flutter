@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class GameItem with ChangeNotifier {
-  final int id;
+  final String id;
   final String name;
   final double price;
   final int score;
   final String image;
+  final String description;
   bool isFavorite;
 
   GameItem({
@@ -14,6 +15,7 @@ class GameItem with ChangeNotifier {
     required this.price,
     required this.score,
     required this.image,
+    required this.description,
     this.isFavorite = false,
   });
 

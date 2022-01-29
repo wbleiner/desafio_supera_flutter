@@ -3,7 +3,7 @@ import 'package:desafio_supera_flutter/models/game_item.dart';
 import 'package:flutter/material.dart';
 
 class GameList with ChangeNotifier {
-  final List<GameItem> _gameList = dummyGames;
+  List<GameItem> _gameList = dummyGames;
   List<GameItem> _gameFavoriteList = [];
 
   List<GameItem> get gameList {
@@ -36,6 +36,11 @@ class GameList with ChangeNotifier {
 
   void scoreOrder() {
     _gameList.sort((a, b) => b.score.compareTo(a.score));
+    notifyListeners();
+  }
+
+  void noOrder() {
+    _gameList = dummyGames.toList();
     notifyListeners();
   }
 }
