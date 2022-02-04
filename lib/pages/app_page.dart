@@ -1,9 +1,12 @@
 import 'package:badges/badges.dart';
-import 'package:desafio_supera_flutter/models/cart.dart';
-import 'package:desafio_supera_flutter/models/game_list.dart';
+import 'package:desafio_supera_flutter/components/custom_search.dart';
+import 'package:desafio_supera_flutter/components/drawer_app.dart';
+
 import 'package:desafio_supera_flutter/pages/cart_page.dart';
 import 'package:desafio_supera_flutter/pages/favorite_page.dart';
 import 'package:desafio_supera_flutter/pages/home_page.dart';
+import 'package:desafio_supera_flutter/providers/cart_provider.dart';
+import 'package:desafio_supera_flutter/providers/game_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +15,6 @@ enum SortOptions {
   BIGGESTPRICE,
   APHABETICALORDER,
   SCORE,
-  NOORDER,
 }
 
 class AppPage extends StatefulWidget {
@@ -58,19 +60,26 @@ class _AppPageState extends State<AppPage> {
         case SortOptions.SCORE:
           provider.scoreOrder();
           break;
-        case SortOptions.NOORDER:
-          provider.noOrder();
-          break;
+
         default:
       }
     }
 
     return Scaffold(
-      drawer: Drawer(),
+      resizeToAvoidBottomInset: true,
+      drawer: DrawerApp(),
       appBar: AppBar(
         title: Text(_title[_currentIndex]),
         actions: _currentIndex == indexHome
             ? [
+                IconButton(
+                    onPressed: () {
+                      showSearch(
+                        context: context,
+                        delegate: CustomSearch(),
+                      );
+                    },
+                    icon: Icon(Icons.search)),
                 PopupMenuButton(
                   icon: Icon(Icons.sort),
                   onSelected: _onSeletionOption,
@@ -90,10 +99,6 @@ class _AppPageState extends State<AppPage> {
                     PopupMenuItem(
                       child: Text('Ordem Alfabética'),
                       value: SortOptions.APHABETICALORDER,
-                    ),
-                    PopupMenuItem(
-                      child: Text('Ordem Inicial'),
-                      value: SortOptions.NOORDER,
                     ),
                   ],
                 ),

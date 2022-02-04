@@ -1,49 +1,17 @@
-import 'package:desafio_supera_flutter/models/cart.dart';
+import 'package:desafio_supera_flutter/components/single_price_detail.dart';
+import 'package:desafio_supera_flutter/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPriceCard extends StatelessWidget {
   final Cart cartProvider;
   const DetailsPriceCard({Key? key, required this.cartProvider})
       : super(key: key);
-  Widget _priceDetail({
-    required String title,
-    required String value,
-    required double fontSize,
-    Color? colorText,
-    Color? colorValue,
-    FontWeight? fontWeight,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            '$title (R\$)',
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: fontWeight,
-              color: colorText,
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontWeight: fontWeight,
-              fontSize: fontSize,
-              color: colorValue,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           border: Border.all(
             color: Colors.black38,
@@ -67,16 +35,14 @@ class DetailsPriceCard extends StatelessWidget {
             thickness: 2,
             color: Colors.black12,
           ),
-          _priceDetail(
+          SinglePriceDetail(
             title: 'Subtotal',
             value:
-                (cartProvider.totalAmountWithShipping - cartProvider.shipping)
-                    .toStringAsFixed(2)
-                    .replaceAll('.', ','),
+                'R\$ ${cartProvider.subTotal.toStringAsFixed(2).replaceAll('.', ',')}',
             fontSize: 18,
             colorText: Colors.grey,
           ),
-          _priceDetail(
+          SinglePriceDetail(
             title: 'Frete',
             value: cartProvider.shipping == 0
                 ? 'Grátis'
@@ -87,15 +53,24 @@ class DetailsPriceCard extends StatelessWidget {
                 ? Theme.of(context).colorScheme.secondary
                 : Colors.black,
           ),
+          SinglePriceDetail(
+            title: 'Cupom',
+            value:
+                '- R\$ ${cartProvider.discount.toStringAsFixed(2).replaceAll('.', ',')}',
+            fontSize: 18,
+            colorText: Colors.black38,
+            colorValue: cartProvider.discount > 0
+                ? Theme.of(context).colorScheme.secondary
+                : Colors.black,
+          ),
           Divider(
             thickness: 2,
             color: Colors.black12,
           ),
-          _priceDetail(
+          SinglePriceDetail(
             title: 'Total',
-            value: cartProvider.totalAmountWithShipping
-                .toStringAsFixed(2)
-                .replaceAll('.', ','),
+            value:
+                'R\$ ${cartProvider.totalAmountWithShipping.toStringAsFixed(2).replaceAll('.', ',')}',
             fontSize: 18,
             colorValue: Theme.of(context).colorScheme.secondary,
             fontWeight: FontWeight.bold,

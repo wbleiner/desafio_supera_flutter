@@ -1,9 +1,9 @@
 import 'package:desafio_supera_flutter/components/carousel.dart';
 import 'package:desafio_supera_flutter/components/game_grid.dart';
-import 'package:desafio_supera_flutter/models/game_list.dart';
+import 'package:desafio_supera_flutter/providers/game_item_provider.dart';
+import 'package:desafio_supera_flutter/providers/game_list_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'package:desafio_supera_flutter/models/game_item.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
     final provider = Provider.of<GameList>(context);
     final List<GameItem> loadedGames = provider.gameList;
     return ListView(
-      padding: EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 10),
       children: [
         CarouselSliderGames(),
         GameGrid(loadedGames: loadedGames),

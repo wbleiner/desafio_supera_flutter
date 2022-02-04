@@ -1,11 +1,11 @@
-import 'package:desafio_supera_flutter/models/game_item.dart';
+import 'package:desafio_supera_flutter/providers/game_item_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'game_card.dart';
 
 class GameGrid extends StatelessWidget {
-  const GameGrid({
+  GameGrid({
     Key? key,
     required this.loadedGames,
   }) : super(key: key);
@@ -15,7 +15,7 @@ class GameGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 8,
         right: 8,
         bottom: 8,

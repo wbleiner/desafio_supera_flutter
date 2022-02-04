@@ -1,7 +1,7 @@
 import 'package:desafio_supera_flutter/components/score.dart';
-import 'package:desafio_supera_flutter/models/cart.dart';
-import 'package:desafio_supera_flutter/models/game_item.dart';
-import 'package:desafio_supera_flutter/models/game_list.dart';
+import 'package:desafio_supera_flutter/providers/cart_provider.dart';
+import 'package:desafio_supera_flutter/providers/game_item_provider.dart';
+import 'package:desafio_supera_flutter/providers/game_list_provider.dart';
 import 'package:desafio_supera_flutter/utils/app_routes.dart';
 import 'package:desafio_supera_flutter/utils/score_types.dart';
 import 'package:flutter/material.dart';
@@ -32,37 +32,41 @@ class GameCard extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(
-              AppRoutes.DETAILS,
-              arguments: loadedGame,
-            ),
-            child: Column(
-              children: [
-                Container(
-                  child: Hero(
-                    tag: loadedGame.id,
-                    child: Image.asset(
-                      'assets/images/items/${loadedGame.image}',
-                      fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height * 0.31,
+          ChangeNotifierProvider.value(
+            value: loadedGame,
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed(
+                AppRoutes.DETAILS,
+                arguments: loadedGame,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    child: Hero(
+                      tag: loadedGame.id,
+                      child: Image.asset(
+                        'assets/images/items/${loadedGame.image}',
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height * 0.31,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  height: 50,
-                  child: Text(
-                    loadedGame.name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'RobotoCondensed',
-                      fontSize: 18,
+                  SizedBox(height: 10),
+                  Container(
+                    height: 50,
+                    child: Text(
+                      loadedGame.name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'RobotoCondensed',
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Row(

@@ -1,7 +1,10 @@
-import 'package:desafio_supera_flutter/models/cart.dart';
-import 'package:desafio_supera_flutter/models/game_list.dart';
 import 'package:desafio_supera_flutter/pages/app_page.dart';
 import 'package:desafio_supera_flutter/pages/details_page.dart';
+import 'package:desafio_supera_flutter/pages/orders_page.dart';
+import 'package:desafio_supera_flutter/providers/cart_provider.dart';
+import 'package:desafio_supera_flutter/providers/game_list_provider.dart';
+import 'package:desafio_supera_flutter/providers/order_provider.dart';
+import 'package:desafio_supera_flutter/providers/search_history_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'utils/app_routes.dart';
@@ -22,10 +25,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Cart(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => OrderListProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SearchHistoryProvider(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(
           colorScheme: ThemeData().colorScheme.copyWith(
+                brightness: Brightness.light,
+                surface: Colors.white,
                 primary: Color.fromRGBO(29, 31, 34, 1),
                 primaryVariant: Color.fromRGBO(67, 70, 78, 1),
                 secondary: Color.fromRGBO(11, 207, 131, 1),
@@ -49,6 +60,7 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.APP: (ctx) => AppPage(),
           AppRoutes.DETAILS: (ctx) => DetailsPage(),
+          AppRoutes.ORDERS: (ctx) => OrdersPage(),
         },
       ),
     );

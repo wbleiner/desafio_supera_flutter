@@ -1,5 +1,5 @@
 import 'package:desafio_supera_flutter/data/dummy_data.dart';
-import 'package:desafio_supera_flutter/models/game_item.dart';
+import 'package:desafio_supera_flutter/providers/game_item_provider.dart';
 import 'package:flutter/material.dart';
 
 class GameList with ChangeNotifier {

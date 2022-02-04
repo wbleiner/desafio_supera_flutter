@@ -28,6 +28,7 @@ dependencies:
     sdk: flutter
   smooth_page_indicator: ^1.0.0+2
   provider: ^6.0.2
+  intl: ^0.17.0
 
   
 
@@ -48,7 +49,7 @@ flutter:
   assets:
     - assets/images/carousel/
     - assets/images/items/
-    - assets/images/items/details/
+    - assets/images/background/
 
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,5 +1,5 @@
-import 'package:desafio_supera_flutter/models/cart.dart';
 import 'package:desafio_supera_flutter/models/cart_item.dart';
+import 'package:desafio_supera_flutter/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -17,41 +17,48 @@ class CartItemWidget extends StatelessWidget {
     return Card(
       elevation: 5,
       child: ListTile(
-        leading: Image.asset('assets/images/items/${item.image}'),
+        leading: Image.asset(
+          'assets/images/items/${item.image}',
+        ),
         title: Text(item.name),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('R\$ ${item.price.toStringAsFixed(2).replaceAll('.', ',')}'),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  iconSize: 20,
-                  onPressed: () {
-                    cartProvider.removeSingleItemById(item.idGame);
-                  },
-                  icon: Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.green),
-                    ),
+                Container(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.green),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      cartProvider.removeSingleItemById(item.idGame);
+                    },
                     child: Icon(Icons.remove),
                   ),
                 ),
-                Text(item.quantity.toString()),
-                IconButton(
-                  iconSize: 20,
-                  onPressed: () {
-                    cartProvider.addItemById(item.idGame);
-                  },
-                  icon: Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.green),
-                    ),
+                Container(
+                  alignment: Alignment.center,
+                  width: 20,
+                  height: 20,
+                  child: Text(
+                    item.quantity.toString(),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.green),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      cartProvider.addItemById(item.idGame);
+                    },
                     child: Icon(Icons.add),
                   ),
                 ),
@@ -69,10 +76,19 @@ class CartItemWidget extends StatelessWidget {
               ],
             ),
           ],
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
-        trailing: Text(
-            'R\$ ${cartProvider.totalAmountGame(item.idGame).toStringAsFixed(2).replaceAll('.', ',')}'),
+        trailing: Chip(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          labelStyle: TextStyle(color: Colors.white),
+          label: FittedBox(
+            child: Text(
+              'R\$ ${cartProvider.totalAmountGame(item.idGame).toStringAsFixed(2).replaceAll('.', ',')}',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
+        ),
       ),
     );
   }

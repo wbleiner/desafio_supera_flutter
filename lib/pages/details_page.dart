@@ -1,7 +1,7 @@
 import 'package:desafio_supera_flutter/components/score.dart';
-import 'package:desafio_supera_flutter/models/cart.dart';
-import 'package:desafio_supera_flutter/models/game_item.dart';
-import 'package:desafio_supera_flutter/models/game_list.dart';
+import 'package:desafio_supera_flutter/providers/cart_provider.dart';
+import 'package:desafio_supera_flutter/providers/game_item_provider.dart';
+import 'package:desafio_supera_flutter/providers/game_list_provider.dart';
 import 'package:desafio_supera_flutter/utils/score_types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +11,7 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GameList gameList = Provider.of<GameList>(context, listen: false);
+    final GameList gameList = Provider.of<GameList>(context);
     final Cart cartList = Provider.of<Cart>(context, listen: false);
     final GameItem game =
         ModalRoute.of(context)!.settings.arguments as GameItem;

@@ -63,8 +63,12 @@ class Score extends StatelessWidget {
                 color: Colors.yellow,
                 size: 20,
               ),
+              SizedBox(
+                width: 4,
+              ),
               Text(
                 (score / 100).toStringAsFixed(1),
+                style: TextStyle(color: Colors.grey),
               ),
             ],
           );

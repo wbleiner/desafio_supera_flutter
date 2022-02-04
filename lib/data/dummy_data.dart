@@ -1,5 +1,6 @@
 import 'package:desafio_supera_flutter/models/carousel_item.dart';
-import 'package:desafio_supera_flutter/models/game_item.dart';
+import 'package:desafio_supera_flutter/models/coupon.dart';
+import 'package:desafio_supera_flutter/providers/game_item_provider.dart';
 
 final dummyGames = [
   GameItem(
@@ -105,5 +106,20 @@ final dummyCarouselItems = [
     id: 4,
     image: 'super-mario-odyssey.jpeg',
     title: 'Explore lugares incríveis com o Mario e o novo aliado Cappy',
+  ),
+];
+
+final dummyCoupon = [
+  Coupon(
+    code: 'DESCONTO10',
+    discount: 10.00,
+  ),
+  Coupon(
+    code: 'DESCONTO20',
+    discount: 20.00,
+  ),
+  Coupon(
+    code: 'DESCONTO30',
+    discount: 30.00,
   ),
 ];
